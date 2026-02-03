@@ -24,7 +24,6 @@ jobs:
       - name: Detect package manager
         id: detect-package-manager
         run: |
-          # Verificando caminhos relativos à raiz do repo
           if [ -f "gamified-fixation/yarn.lock" ]; then
             echo "manager=yarn" >> $GITHUB_OUTPUT
             echo "command=install" >> $GITHUB_OUTPUT
@@ -44,9 +43,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          # Cache precisa apontar para o arquivo de trava correto
           cache: ${{ steps.detect-package-manager.outputs.manager }}
-          cache-dependency-path: 'gamified-fixation/${{ steps.detect-package-manager.outputs.manager == 'yarn' && 'yarn.lock' || 'package-lock.json' }}'
+          # Ajustado para evitar o erro de sintaxe da linha 45:
+          cache-dependency-path: "gamified-fixation/package-lock.json"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -62,7 +61,6 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # O caminho do upload é relativo à raiz do REPOSITÓRIO
           path: ./gamified-fixation/out
 
   deploy:
