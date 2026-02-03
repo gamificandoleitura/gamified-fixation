@@ -2,6 +2,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: 'export',
+  basePath: '/gamified-fixation',
+  images: {
+    unoptimized: true,
+  },
   images: {
     unoptimized: true,
   },
